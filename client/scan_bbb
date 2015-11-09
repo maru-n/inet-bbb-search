@@ -19,15 +19,19 @@ for p, ip in zip(pipes, SEARCH_IPS):
         available_ips.append(ip)
     else:
         print('.', end='', flush=True)
+print()
 
 for ip in available_ips:
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(0.1)
+        s.settimeout(1)
         s.connect((ip, PORT))
         s.send(b"BBB?\n")
-        if s.recv(128) == b'yes':
+        if s.recv(8) == b'yes':
+            s.close()
+            print()
             print(ip)
             break
     except Exception as e:
-        pass
+        s.close()
+        print('.', end='', flush=True)
