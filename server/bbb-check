@@ -1,0 +1,15 @@
+service myecho-stream
+{
+        disable         = no
+        id              = bbb-check
+        type            = UNLISTED
+        wait            = no
+        socket_type     = stream
+        user            = root
+        server          = /usr/local/etc/bbb-check.sh
+        port            = 23456
+        flags           = REUSE
+        log_on_failure  += USERID
+        per_source      = UNLIMITED
+}
+
