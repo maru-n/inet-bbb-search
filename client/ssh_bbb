@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+scan_command="python scan_bbb.py"
+
+mkfifo tmp_pipe
+cat tmp_pipe &
+ip=$(${scan_command} | tee tmp_pipe | sed '$!d')
+rm tmp_pipe
+
+ssh ubuntu@${ip} $@
