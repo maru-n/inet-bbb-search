@@ -35,12 +35,12 @@ def scan_bbb(search_ips, port):
             s.send(b"BBB?\n")
             if s.recv(8) == b'yes':
                 s.close()
-                print()
                 found_ip = ip
                 break
         except Exception as e:
             s.close()
             print('.', end='', flush=True)
+    print()
     return found_ip
 
 
