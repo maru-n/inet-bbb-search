@@ -2,9 +2,15 @@
 
 scan_command="python scan_bbb.py"
 
-mkfifo tmp_pipe
-cat tmp_pipe &
-ip=$(${scan_command} | tee tmp_pipe | sed '$!d')
-rm tmp_pipe
+tmp_pipe=$(mktemp -u -t tmp)
+mkfifo -m 600 "$tmp_pipe"
 
-ssh ubuntu@${ip} $@
+cat ${tmp_pipe} &
+ip=$(${scan_command} | tee ${tmp_pipe} | sed '$!d')
+rm ${tmp_pipe}
+
+if [ "${ip}" = "None" ]; then
+    echo "address couldn't found."
+else
+    ssh ubuntu@${ip} $@
+fi
