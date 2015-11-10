@@ -3,7 +3,7 @@
 
 while read i ; do
     req=`echo ${i} | tr -d '\r' | tr -d '\n'`
-    if [ ${req} = "BBB?" ]; then
+    if [ "${req}" = "BBB?" ]; then
         echo -n yes
     fi
 done
