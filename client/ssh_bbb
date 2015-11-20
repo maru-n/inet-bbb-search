@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 
+cd `dirname "${0}"`
 scan_command="python scan_bbb.py"
 
 tmp_pipe=$(mktemp -u -t tmp)
@@ -9,7 +10,7 @@ cat ${tmp_pipe} &
 ip=$(${scan_command} | tee ${tmp_pipe} | sed '$!d')
 rm ${tmp_pipe}
 
-if [ "${ip}" = "None" ]; then
+if [ "${ip}" = "" ]; then
     echo "address couldn't found."
 else
     ssh ubuntu@${ip} $@
